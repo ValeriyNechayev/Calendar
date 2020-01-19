@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id "org.liquibase.gradle" version "2.0.2"
+}
+
+group 'valnec'
+version '0.1'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    liquibaseRuntime 'org.liquibase:liquibase-core:3.8.1'
+    liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:2.0.1'
+    liquibaseRuntime group: 'org.postgresql', name: 'postgresql', version: '42.2.9'
+
+}
+
+liquibase {
+    activities {
+
+        main {
+            classpath "${projectDir}/"
+            changeLogFile 'changelog/liquibase-Calendar.xml'
+            url 'jdbc:postgresql://localhost:5432/Calendar'
+            username "${System.env.DATABASE_USERNAME}"
+            password "${System.env.DATABASE_PASSWORD}"
+        }
+
+    }
+}
